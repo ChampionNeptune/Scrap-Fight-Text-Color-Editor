@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRAP-FIGHT Text Colorizer</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://i.postimg.cc/0N141qXb/SCRAP-FIGHT-POSTER.jpg'); /* Updated background image */
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        #editor-container {
+            height: 200px;
+            background-color: black; /* Set text block background to black */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: white; /* Set text color to white */
+        }
+        .ql-toolbar {
+            margin-bottom: 10px;
+            background-color: white; /* Toolbar background set to white */
+            border: 1px solid #ccc;
+        }
+        .export-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+        }
+        .advertisement {
+            margin-top: 20px;
+        }
+        .discord-button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #7289da;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .discord-button:hover {
+            background-color: #5b6eae;
+            border-color: #ffdf42;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 223, 66, 0.8);
+        }
+        .server-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        .red-button {
+            background-color: #ff4d4d;
+        }
+        .black-button {
+            background-color: #333;
+        }
+        .blue-button {
+            background-color: #4d79ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>SCRAP-FIGHT Text Colorizer</h1>
+    <div id="editor-container"></div>
+    <br>
+    <button class="export-button" onclick="exportText()">Copy to Clipboard</button>
+
+    <div class="advertisement">
+        <a href="https://discord.gg/scrap-fight" class="discord-button">Join SCRAP-FIGHT!</a>
+    </div>
+
+    <div class="advertisement">
+        <h3>Join Our Server!</h3>
+        <img src="https://i.postimg.cc/85SgvzpN/shopfront.gif" alt="Server Advertisement">
+    </div>
+
+    <div class="server-links">
+        <a href="https://www.youtube.com/@SCRAPFIGHT" class="button red-button">YouTube</a>
+        <a href="https://www.tiktok.com/@SCRAPFIGHT" class="button black-button">TikTok</a>
+        <a href="https://sites.google.com/view/scrap-fight/home" class="button blue-button">Website</a>
+    </div>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        // Initialize Quill editor
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'color': [] }],
+                    [{ 'background': [] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'align': [] }],
+                    ['clean']
+                ]
+            }
+        });
+
+        function exportText() {
+            const delta = quill.getContents();
+            let formattedText = '';
+
+            delta.ops.forEach(op => {
+                if (op.attributes && op.attributes.color) {
+                    formattedText += `<color=${op.attributes.color}>${op.insert}</color>`;
+                } else {
+                    formattedText += op.insert;
+                }
+            });
+
+            navigator.clipboard.writeText(formattedText).then(() => {
+                alert('Text copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
